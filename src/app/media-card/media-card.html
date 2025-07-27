@@ -1,0 +1,29 @@
+<div class="media-card">
+    <div class="card-background" [style.background-image]="'url(' + imageUrl + ')'">
+        <div class="card-overlay">
+            <div class="rating-badge">
+                <app-circular-rating [percentage]="rating" [size]="40" [color]="'#00ff00'"></app-circular-rating>
+            </div>
+            <div class="menu-button">
+                <div class="menu-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="card-info-below">
+        <h3 class="card-title">{{ title }}</h3>
+        <div class="card-meta">
+            <span class="card-date">{{ date }}</span>
+            <div class="like-button-container">
+                <button class="like-button" (click)="toggleLike()">
+                    <fa-icon [icon]="isLiked ? faHeartSolid : faHeartRegular" [class.liked]="isLiked" style="color: yellow;">
+                    </fa-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="circular-rating" [style.width.px]="size" [style.height.px]="size">
+  <svg [attr.width]="size" [attr.height]="size" class="circular-progress">
+    <!-- Background circle -->
+    <circle
+      [attr.cx]="center"
+      [attr.cy]="center"
+      [attr.r]="radius"
+      fill="none"
+      stroke="#333"
+      [attr.stroke-width]="strokeWidth"
+    />
+    <!-- Progress circle -->
+    <circle
+      [attr.cx]="center"
+      [attr.cy]="center"
+      [attr.r]="radius"
+      fill="none"
+      [attr.stroke]="color"
+      [attr.stroke-width]="strokeWidth"
+      stroke-linecap="round"
+      [attr.stroke-dasharray]="strokeDasharray"
+      [attr.stroke-dashoffset]="strokeDashoffset"
+      transform="rotate(-90, center, center)"
+    />
+  </svg>
+  <div class="percentage-text">
+    {{ percentage }}%
+  </div>
+</div>
