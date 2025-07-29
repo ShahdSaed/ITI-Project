@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CircularRating } from './circular-rating';
+import { HomePage } from './home-page';
 
-describe('CircularRating', () => {
-  let component: CircularRating;
-  let fixture: ComponentFixture<CircularRating>;
+describe('HomePage', () => {
+  let component: HomePage;
+  let fixture: ComponentFixture<HomePage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CircularRating]
+      imports: [HomePage]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CircularRating);
+    fixture = TestBed.createComponent(HomePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

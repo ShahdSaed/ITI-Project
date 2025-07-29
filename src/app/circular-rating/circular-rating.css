@@ -1,6 +1,8 @@
 .circular-rating {
   position: relative;
   display: inline-block;
+  background: rgb(44, 44, 44);
+  border-radius: 50%;
 }
 
 .circular-progress {
