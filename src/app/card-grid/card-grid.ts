@@ -14,70 +14,140 @@ export class CardGrid {
       title: 'Inception',
       date: 'Jul 16, 2010',
       rating: 87,
-      imageUrl: 'https://m.media-amazon.com/images/I/51s+zF1FQwL._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: false
     },
     {
       title: 'Interstellar',
       date: 'Nov 07, 2014',
       rating: 91,
-      imageUrl: 'https://m.media-amazon.com/images/I/71n58vBL2-L._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: true
     },
     {
       title: 'The Dark Knight',
       date: 'Jul 18, 2008',
       rating: 94,
-      imageUrl: 'https://m.media-amazon.com/images/I/51EbJjlLw-L._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: false
     },
     {
       title: 'The Matrix',
       date: 'Mar 31, 1999',
       rating: 88,
-      imageUrl: 'https://m.media-amazon.com/images/I/51EG732BV3L.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: true
     },
     {
       title: 'Pulp Fiction',
       date: 'Oct 14, 1994',
       rating: 92,
-      imageUrl: 'https://m.media-amazon.com/images/I/71c05lTE03L._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: false
     },
     {
       title: 'Fight Club',
       date: 'Oct 15, 1999',
       rating: 89,
-      imageUrl: 'https://m.media-amazon.com/images/I/81D+KJkO5-L._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: true
     },
     {
       title: 'Forrest Gump',
       date: 'Jul 06, 1994',
       rating: 85,
-      imageUrl: 'https://m.media-amazon.com/images/I/61+Q6Rh3OQL._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: false
     },
     {
       title: 'The Shawshank Redemption',
       date: 'Sep 23, 1994',
       rating: 98,
-      imageUrl: 'https://m.media-amazon.com/images/I/51NiGlapXlL._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: true
     },
     {
       title: 'The Godfather',
       date: 'Mar 24, 1972',
       rating: 97,
-      imageUrl: 'https://m.media-amazon.com/images/I/51rOnIjLqzL._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: false
     },
     {
       title: 'Gladiator',
       date: 'May 05, 2000',
       rating: 86,
-      imageUrl: 'https://m.media-amazon.com/images/I/51A9ZK0KQGL._AC_SY679_.jpg',
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: true
+    },
+    {
+      title: 'Inception',
+      date: 'Jul 16, 2010',
+      rating: 87,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: false
+    },
+    {
+      title: 'Interstellar',
+      date: 'Nov 07, 2014',
+      rating: 91,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: true
+    },
+    {
+      title: 'The Dark Knight',
+      date: 'Jul 18, 2008',
+      rating: 94,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: false
+    },
+    {
+      title: 'The Matrix',
+      date: 'Mar 31, 1999',
+      rating: 88,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: true
+    },
+    {
+      title: 'Pulp Fiction',
+      date: 'Oct 14, 1994',
+      rating: 92,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: false
+    },
+    {
+      title: 'Fight Club',
+      date: 'Oct 15, 1999',
+      rating: 89,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: true
+    },
+    {
+      title: 'Forrest Gump',
+      date: 'Jul 06, 1994',
+      rating: 85,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: false
+    },
+    {
+      title: 'The Shawshank Redemption',
+      date: 'Sep 23, 1994',
+      rating: 98,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: true
+    },
+    {
+      title: 'The Godfather',
+      date: 'Mar 24, 1972',
+      rating: 97,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
+      isLiked: false
+    },
+    {
+      title: 'Gladiator',
+      date: 'May 05, 2000',
+      rating: 86,
+      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
       isLiked: true
     }
   ];
