@@ -1,0 +1,67 @@
+<section class="details-container">
+  <div class="details-main">
+    <div class="poster">
+      <img [src]="movie.banner" [alt]="movie.title" />
+    </div>
+
+
+    <div class="movie-info">
+      <div class="title-with-heart">
+        <h1>{{ movie.title }}</h1>
+        <div class="css-heart" [ngClass]="{ 'active': isInWatchlist(movieId) }" (click)="toggleWatchlist(movieId)" title="Add to Watchlist"></div>
+      </div>
+        <span class="releaseYear">{{ movie.releaseYear }}</span>
+      <div class="rating-stars" *ngIf="starsArray.length">
+        <ng-container *ngFor="let star of starsArray">
+          <span [ngClass]="{
+              'star': true,
+              'full-star': star === 'full',
+              'half-star': star === 'half',
+              'empty-star': star === 'empty'
+              }">★</span>
+        </ng-container>
+          <span class="votes">({{ movie.votes | number }} reviews)</span>
+      </div>
+      <br>
+
+      <div class="details-list">
+        <p class="description"><b>{{ movie.description }}</b></p>
+        <div class="genres" *ngIf="movie?.genres?.length">
+          <span class="genre-btn" *ngFor="let genre of movie.genres">{{ genre }}</span>
+        </div>
+        <div class="meta-info">
+          <div><strong>Duration:</strong> {{ movie.duration }} Min</div>
+          <div><strong>Languages:</strong> {{ movie.language }}</div>
+        </div>
+        <div class="production">
+        <img [src]="movie.production" [alt]="movie.title" />
+        </div>
+        <span class="website-link">
+          <a [href]="movie.website" target="_blank" rel="noopener noreferrer">
+            Website 🔗
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+<hr>
+
+<section class="recommendations">
+  <h2>Recommendations</h2>
+  <div class="recommendations-list">
+    <div class="recommendation-card" *ngFor="let rec of recommendations">
+      <a [routerLink]="['/details', rec.id]">
+        <div class="poster-container">
+          <img [src]="rec.banner" [alt]="rec.title" />
+          <div class="rating-badge"  [ngClass]="getRatingClass(rec.ratingperhun)">
+            {{ rec.ratingperhun }}%</div>
+            <div class="more-options">...</div>
+        </div>
+        <div class="recommendation-info">
+          <p class="recommendation-title">{{ rec.title }}</p>
+          <p class="recommendation-release">{{ rec.releaseYear }}</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,12 @@
+<section class="search-header">
+  <h2>Welcome to our movie app</h2>
+
+  <div class="search-box">
+    <input type="text" 
+    [(ngModel)]="searchTerm" 
+    (input)="search.emit(searchTerm)"
+    placeholder="Search for movies..."
+    />
+    <button (click)="onSearch()">Search</button>
+  </div>
+</section>
