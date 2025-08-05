@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaCardComponent } from '../media-card/media-card';
+import { MovieService, Movie } from '../services/movie.service';
 
 @Component({
   selector: 'app-card-grid',
@@ -8,152 +9,76 @@ import { MediaCardComponent } from '../media-card/media-card';
   templateUrl: './card-grid.html',
   styleUrl: './card-grid.css'
 })
-export class CardGrid {
-  cards = [
-    {
-      title: 'Inception',
-      date: 'Jul 16, 2010',
-      rating: 87,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'Interstellar',
-      date: 'Nov 07, 2014',
-      rating: 91,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'The Dark Knight',
-      date: 'Jul 18, 2008',
-      rating: 94,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'The Matrix',
-      date: 'Mar 31, 1999',
-      rating: 88,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'Pulp Fiction',
-      date: 'Oct 14, 1994',
-      rating: 92,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'Fight Club',
-      date: 'Oct 15, 1999',
-      rating: 89,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'Forrest Gump',
-      date: 'Jul 06, 1994',
-      rating: 85,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'The Shawshank Redemption',
-      date: 'Sep 23, 1994',
-      rating: 98,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'The Godfather',
-      date: 'Mar 24, 1972',
-      rating: 97,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'Gladiator',
-      date: 'May 05, 2000',
-      rating: 86,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'Inception',
-      date: 'Jul 16, 2010',
-      rating: 87,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'Interstellar',
-      date: 'Nov 07, 2014',
-      rating: 91,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'The Dark Knight',
-      date: 'Jul 18, 2008',
-      rating: 94,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'The Matrix',
-      date: 'Mar 31, 1999',
-      rating: 88,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'Pulp Fiction',
-      date: 'Oct 14, 1994',
-      rating: 92,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'Fight Club',
-      date: 'Oct 15, 1999',
-      rating: 89,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'Forrest Gump',
-      date: 'Jul 06, 1994',
-      rating: 85,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'The Shawshank Redemption',
-      date: 'Sep 23, 1994',
-      rating: 98,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    },
-    {
-      title: 'The Godfather',
-      date: 'Mar 24, 1972',
-      rating: 97,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: false
-    },
-    {
-      title: 'Gladiator',
-      date: 'May 05, 2000',
-      rating: 86,
-      imageUrl: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2024/01/john-wick-franchise-poster.jpg',
-      isLiked: true
-    }
-  ];
-
+export class CardGrid implements OnInit {
+  @Input() searchResults: Movie[] = [];
+  
+  cards: Movie[] = [];
   cardsPerPage = 10;
   currentPage = 1;
+  loading = false;
+  error = '';
+
+  constructor(private movieService: MovieService) {}
+
+  ngOnInit(): void {
+    this.loadMovies();
+  }
+
+  ngOnChanges(): void {
+    if (this.searchResults && this.searchResults.length > 0) {
+      this.cards = this.searchResults;
+      this.currentPage = 1; 
+    } else if (this.searchResults && this.searchResults.length === 0) {
+      this.cards = [];
+    }
+  }
+
+  loadMovies(): void {
+    this.loading = true;
+    this.error = '';
+    
+    this.movieService.getMovies().subscribe({
+      next: (movies) => {
+        this.cards = movies;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = 'Failed to load movies. Please try again.';
+        this.loading = false;
+        console.error('Error loading movies:', error);
+      }
+    });
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit'
+    });
+  }
+
+  getImageUrl(posterPath: string): string {
+    if (!posterPath) {
+      return 'https://via.placeholder.com/300x450?text=No+Image';
+    }
+
+    // If the poster path already starts with http, it's a full URL
+    if (posterPath.startsWith('http')) {
+      return posterPath;
+    }
+
+    // For TMDB poster paths, use the proper base URL
+    // Remove leading slash if present
+    const cleanPath = posterPath.startsWith('/') ? posterPath.substring(1) : posterPath;
+    return `https://image.tmdb.org/t/p/w500/${cleanPath}`;
+  }
+
+  getRatingPercentage(voteAverage: number): number {
+    return Math.round(voteAverage * 10);
+  }
 
   get totalPages(): number {
     return Math.ceil(this.cards.length / this.cardsPerPage);
@@ -163,39 +88,51 @@ export class CardGrid {
     return Array(this.totalPages).fill(0).map((x, i) => i + 1);
   }
 
-  get paginationPages() {
-    const pages = [];
-    const total = this.totalPages;
-    const current = this.currentPage;
-    if (total <= 7) {
-      for (let i = 1; i <= total; i++) pages.push(i);
+  get cardsToShow(): Movie[] {
+    const startIndex = (this.currentPage - 1) * this.cardsPerPage;
+    const endIndex = startIndex + this.cardsPerPage;
+    return this.cards.slice(startIndex, endIndex);
+  }
+
+  get paginationPages(): (number | string)[] {
+    const pages: (number | string)[] = [];
+    const totalPages = this.totalPages;
+    const currentPage = this.currentPage;
+
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
     } else {
-      if (current <= 4) {
-        for (let i = 1; i <= 5; i++) pages.push(i);
+      if (currentPage <= 4) {
+        for (let i = 1; i <= 5; i++) {
+          pages.push(i);
+        }
         pages.push('...');
-        pages.push(total);
-      } else if (current >= total - 3) {
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 3) {
         pages.push(1);
         pages.push('...');
-        for (let i = total - 4; i <= total; i++) pages.push(i);
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i);
+        }
       } else {
         pages.push(1);
         pages.push('...');
-        for (let i = current - 1; i <= current + 1; i++) pages.push(i);
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
         pages.push('...');
-        pages.push(total);
+        pages.push(totalPages);
       }
     }
+
     return pages;
   }
 
-  get cardsToShow() {
-    const start = (this.currentPage - 1) * this.cardsPerPage;
-    return this.cards.slice(start, start + this.cardsPerPage);
-  }
-
-  goToPage(page: number) {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
   }
 }

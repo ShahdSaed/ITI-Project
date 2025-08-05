@@ -1,0 +1,23 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="nav-brand" href="#">Movie App</a>
+        <ul class="nav-menu">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" (click)="toggleDropdown($event)">
+                    En
+                </a>
+                <div class="dropdown-menu" id="languageDropdown" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#" (click)="selectLanguage('English', $event)">En</a>
+                    <a class="dropdown-item" href="#" (click)="selectLanguage('Arabic', $event)">Ar</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <fa-icon [icon]="faHeart"></fa-icon>
+                    Watch List
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+

@@ -1,1 +1,3 @@
-<app-card-grid></app-card-grid>
+<app-nav-home></app-nav-home>
+<app-search-header (searchResults)="onSearchResults($event)"></app-search-header>
+<app-card-grid [searchResults]="searchResults"></app-card-grid>

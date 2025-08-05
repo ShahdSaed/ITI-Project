@@ -1,0 +1,31 @@
+@media (max-width: 575px) {
+  .row .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .row .col app-media-card {
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .row {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .row .col {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .row .col app-media-card {
+    display: flex;
+    justify-content: center;
+  }
+}

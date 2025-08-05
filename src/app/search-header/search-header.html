@@ -1,0 +1,13 @@
+<section class="search-header">
+  <h2>Welcome to our movie app</h2>
+
+  <div class="search-box">
+    <input type="text" 
+    [(ngModel)]="searchTerm" 
+    (input)="onSearchInput()"
+    placeholder="Search for movies..."
+    />
+    <button (click)="onSearchButtonClick()" class="search-btn">Search</button>
+    <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">Clear</button>
+  </div>
+</section>

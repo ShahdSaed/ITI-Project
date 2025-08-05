@@ -1,4 +1,4 @@
-<div class="media-card">
+<div class="media-card" (click)="navigateToMovie(id)">
     <div class="card-background" [style.background-image]="'url(' + imageUrl + ')'">
         <div class="card-overlay">
             <div class="rating-badge">
@@ -19,7 +19,7 @@
         <div class="card-meta">
             <span class="card-date">{{ date }}</span>
             <div class="like-button-container">
-                <button class="like-button" (click)="toggleLike()">
+                <button class="like-button" (click)="toggleLike(); $event.stopPropagation()">
                     <fa-icon [icon]="isLiked ? faHeartSolid : faHeartRegular" [class.liked]="isLiked" >
                     </fa-icon>
                 </button>
