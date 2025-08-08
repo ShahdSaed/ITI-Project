@@ -1,16 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaCardComponent } from '../media-card/media-card';
 import { MovieService } from '../services/movie.service';
 import { Movie } from '../models/movie';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-card-grid',
+  standalone: true,
   imports: [CommonModule, MediaCardComponent],
   templateUrl: './card-grid.html',
   styleUrl: './card-grid.css'
 })
-export class CardGrid implements OnInit {
+export class CardGrid implements OnInit, OnDestroy {
   @Input() searchResults: Movie[] = [];
   
   cards: Movie[] = [];
@@ -23,11 +25,29 @@ export class CardGrid implements OnInit {
 
   ngOnInit(): void {
     this.loadMovies();
+    
+    // Subscribe to watchlist changes to keep liked status in sync
+    this.watchlistSubscription = this.movieService.watchlist$.subscribe(watchlist => {
+      // Clear existing cache
+      this.inWatchlistCache.clear();
+      // Update cache with new watchlist state
+      watchlist.forEach(movie => {
+        this.inWatchlistCache.set(movie.id, true);
+      });
+    });
   }
 
+  ngOnDestroy(): void {
+    if (this.watchlistSubscription) {
+      this.watchlistSubscription.unsubscribe();
+    }
+  }
+
+  private inWatchlistCache = new Map<number, boolean>();
+  private watchlistSubscription?: Subscription;
+
   isMovieLiked(movieId: number): boolean {
-    return this.movieService.getWatchlistCount() > 0 && 
-           this.movieService.watchList.some(movie => movie.id === movieId);
+    return this.inWatchlistCache.get(movieId) || false;
   }
 
   refreshCards(): void {

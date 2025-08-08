@@ -1,113 +1,119 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Movie } from '../models/movie';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-  private apiUrl = 'http://localhost:3000/movie'; 
-  watchList: Movie[] = [];
-  
-  constructor(private http: HttpClient) { 
-    this.loadWatchlistFromStorage();
-  }
+  private apiUrl = 'http://localhost:3000/movie';
+  private watchListSubject: BehaviorSubject<Movie[]>;
+  private watchlistCountSubject: BehaviorSubject<number>;
+  public watchlist$: Observable<Movie[]>;
+  public watchlistCount$: Observable<number>;
 
-  private loadWatchlistFromStorage(): void {
+  constructor(private http: HttpClient) {
+    // Initialize subjects
     const stored = localStorage.getItem('watchlist');
-    if (stored) {
-      try {
-        this.watchList = JSON.parse(stored);
-        console.log('Watchlist loaded from storage:', this.watchList.length, 'movies');
-      } catch (error) {
-        console.error('Error loading watchlist from storage:', error);
-        this.watchList = [];
-      }
-    }
+    const initialWatchlist = stored ? JSON.parse(stored) : [];
+    
+    this.watchListSubject = new BehaviorSubject<Movie[]>(initialWatchlist);
+    this.watchlistCountSubject = new BehaviorSubject<number>(initialWatchlist.length);
+    
+    // Set up observables
+    this.watchlist$ = this.watchListSubject.asObservable();
+    this.watchlistCount$ = this.watchlistCountSubject.asObservable();
+    
+    // Synchronize count with watchlist changes
+    this.watchListSubject.subscribe(watchlist => {
+      this.watchlistCountSubject.next(watchlist.length);
+    });
   }
 
-  private saveWatchlistToStorage(): void {
+  private updateState(watchlist: Movie[]): void {
     try {
-      localStorage.setItem('watchlist', JSON.stringify(this.watchList));
-      console.log('Watchlist saved to storage');
+      // Update storage first
+      localStorage.setItem('watchlist', JSON.stringify(watchlist));
+      
+      // Then update state with a new array reference
+      this.watchListSubject.next([...watchlist]);
+      
+      console.log('State updated successfully, new count:', watchlist.length);
     } catch (error) {
-      console.error('Error saving watchlist to storage:', error);
+      console.error('Error updating state:', error);
     }
   }
 
-  getMovies(): Observable<Movie[]> {
+  public getMovies(): Observable<Movie[]> {
     return this.http.get<Movie[]>(this.apiUrl);
   }
 
-  getMovieById(id: number): Observable<Movie> {
+  public getMovieById(id: number): Observable<Movie> {
     return this.http.get<Movie>(`${this.apiUrl}/${id}`);
   }
 
-  addMovie(movie: Movie): Observable<Movie> {
+  public addMovie(movie: Movie): Observable<Movie> {
     return this.http.post<Movie>(this.apiUrl, movie);
   }
 
-  updateMovie(id: number, movie: Partial<Movie>): Observable<Movie> {
+  public updateMovie(id: number, movie: Partial<Movie>): Observable<Movie> {
     return this.http.put<Movie>(`${this.apiUrl}/${id}`, movie);
   }
 
-  deleteMovie(id: number): Observable<any> {
+  public deleteMovie(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  getWatchlist(): Observable<Movie[]> {
-    return of(this.watchList);
+  public getWatchlist(): Observable<Movie[]> {
+    return this.watchlist$;
   }
 
-  addToWatchlist(movie: Movie): Observable<Movie> {
-    const existingIndex = this.watchList.findIndex(m => m.id === movie.id);
-    if (existingIndex === -1) {
-      this.watchList.push(movie);
-      this.saveWatchlistToStorage();
-      console.log('Movie added to local watchlist:', movie.title);
-    }
-    return of(movie);
-  }
-
-  removeFromWatchlist(movieId: number): Observable<any> {
-    const index = this.watchList.findIndex(m => m.id === movieId);
-    if (index !== -1) {
-      const removedMovie = this.watchList.splice(index, 1)[0];
-      this.saveWatchlistToStorage();
-      console.log('Movie removed from local watchlist:', removedMovie.title);
-    }
-    return of({ message: 'Movie removed from watchlist' });
-  }
-
-  isInWatchlist(movieId: number): Observable<boolean> {
-    const isInWatchlist = this.watchList.some(m => m.id === movieId);
-    return of(isInWatchlist);
-  }
-
-  toggleWatchlist(movie: Movie): Observable<any> {
-    const index = this.watchList.findIndex(m => m.id === movie.id);
+  public toggleWatchlist(movie: Movie): Observable<any> {
+    const current = this.watchListSubject.value;
+    const index = current.findIndex(m => m.id === movie.id);
     
     if (index === -1) {
-      this.watchList.push(movie);
-      this.saveWatchlistToStorage();
-      console.log('Movie added to local watchlist:', movie.title);
-      return of({ message: 'Movie added to watchlist' });
+      // Add movie to watchlist
+      const updated = [...current, movie];
+      console.log('Adding movie to watchlist:', movie.title);
+      this.updateState(updated);
+      return of({ message: 'Movie added to watchlist', added: true });
     } else {
-      const removedMovie = this.watchList.splice(index, 1)[0];
-      this.saveWatchlistToStorage();
-      console.log('Movie removed from local watchlist:', removedMovie.title);
-      return of({ message: 'Movie removed from watchlist' });
+      // Remove movie from watchlist
+      const updated = current.filter(m => m.id !== movie.id);
+      console.log('Removing movie from watchlist:', movie.title);
+      this.updateState(updated);
+      return of({ message: 'Movie removed from watchlist', added: false });
     }
   }
 
-  getWatchlistCount(): number {
-    return this.watchList.length;
+  public removeFromWatchlist(movieId: number): Observable<any> {
+    const current = this.watchListSubject.value;
+    if (!current.some(m => m.id === movieId)) {
+      return of({ message: 'Movie not found in watchlist' });
+    }
+    
+    const updated = current.filter(m => m.id !== movieId);
+    console.log('Removing movie from watchlist, new length:', updated.length);
+    this.updateState(updated);
+    return of({ message: 'Movie removed from watchlist', watchlist: updated });
   }
 
-  clearWatchlist(): void {
-    this.watchList = [];
-    this.saveWatchlistToStorage();
-    console.log('Watchlist cleared');
+  public isInWatchlist(movieId: number): Observable<boolean> {
+    return this.watchlist$.pipe(
+      map((watchlist: Movie[]) => watchlist.some(movie => movie.id === movieId))
+    );
   }
-} 
+
+  public getWatchlistCount(): Observable<number> {
+    return this.watchlistCount$;
+  }
+
+  public clearWatchlist(): Observable<void> {
+    console.log('Clearing watchlist');
+    this.updateState([]);
+    return of(void 0);
+  }
+}

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, ParamMap, RouterModule, Router } from '@angular/router';
-import { MovieService  } from '../services/movie.service';
+import { MovieService } from '../services/movie.service';
 import { MediaCardComponent } from '../media-card/media-card';
-import { Movie } from '../models/movie'
+import { Movie } from '../models/movie';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-details',
@@ -17,12 +19,9 @@ export class DetailsComponent implements OnInit {
   movie: Movie | null = null;
   recommendations: Movie[] = [];
   starsArray: string[] = [];
-  inWatchlistIds: number[] = [];
   loading = false;
   error = '';
-
-  watchlist = new Set<number>();
-  Math: any;
+  private watchlistSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,10 +30,26 @@ export class DetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Subscribe to route changes and load movie details
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.movieId = Number(params.get('id'));
       this.loadMovieDetails();
     });
+
+    // Initialize watchlist state
+    this.movieService.watchlist$.subscribe(watchlist => {
+      const currentInWatchlist = new Set(watchlist.map(m => m.id));
+      this.inWatchlistMap.clear();
+      currentInWatchlist.forEach(movieId => {
+        this.inWatchlistMap.set(movieId, true);
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.watchlistSubscription) {
+      this.watchlistSubscription.unsubscribe();
+    }
   }
 
   loadMovieDetails(): void {
@@ -100,12 +115,6 @@ export class DetailsComponent implements OnInit {
 
     this.movieService.toggleWatchlist(movieForWatchlist).subscribe({
       next: (response) => {
-        // Update local watchlist state
-        if (this.watchlist.has(id)) {
-          this.watchlist.delete(id);
-        } else {
-          this.watchlist.add(id);
-        }
         console.log('Watchlist updated:', response.message);
       },
       error: (error) => {
@@ -114,8 +123,28 @@ export class DetailsComponent implements OnInit {
     });
   }
 
+  private inWatchlistMap = new Map<number, boolean>();
+
   isInWatchlist(id: number): boolean {
-    return this.watchlist.has(id);
+    // Return cached value if available
+    if (this.inWatchlistMap.has(id)) {
+      return this.inWatchlistMap.get(id) || false;
+    }
+
+    // Subscribe to update if not already listening
+    if (!this.watchlistSubscription) {
+      this.watchlistSubscription = this.movieService.watchlist$.subscribe(watchlist => {
+        // Update cache for all movies
+        const currentInWatchlist = new Set(watchlist.map(m => m.id));
+        this.inWatchlistMap.clear();
+        currentInWatchlist.forEach(movieId => {
+          this.inWatchlistMap.set(movieId, true);
+        });
+      });
+    }
+
+    // Return current state
+    return this.inWatchlistMap.get(id) || false;
   }
 
   getStars(rating: number): string[] {

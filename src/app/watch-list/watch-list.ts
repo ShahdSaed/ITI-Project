@@ -1,56 +1,64 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MovieService } from '../services/movie.service';
 import { Movie } from '../models/movie';
 import { MediaCardComponent } from '../media-card/media-card';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-watch-list',
+  standalone: true,
   imports: [CommonModule, RouterModule, MediaCardComponent],
   templateUrl: './watch-list.html',
   styleUrl: './watch-list.css'
 })
-export class WatchList implements OnInit {
+export class WatchList implements OnInit, OnDestroy {
   movies: Movie[] = [];
   loading = false;
   error = '';
+  private watchlistSubscription?: Subscription;
 
   constructor(private movieService: MovieService) {}
 
-  ngOnInit() {
-    this.loadWatchlist();
-  }
-
-  loadWatchlist() {
+  ngOnInit(): void {
     this.loading = true;
     this.error = '';
 
-    this.movieService.getWatchlist().subscribe({
+    // Subscribe to watchlist changes
+    this.watchlistSubscription = this.movieService.watchlist$.subscribe({
       next: (movies) => {
-        this.movies = movies;
+        console.log('Watchlist updated:', movies.length, 'movies');
+        this.movies = [...movies]; // Force new array reference
         this.loading = false;
-        console.log('Watchlist loaded:', movies.length, 'movies');
       },
       error: (error) => {
-        this.error = 'Failed to load watchlist';
-        this.loading = false;
         console.error('Error loading watchlist:', error);
+        this.loading = false;
+        this.error = 'Failed to load watchlist';
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.watchlistSubscription) {
+      this.watchlistSubscription.unsubscribe();
+    }
   }
 
   removeFromWatchlist(movieId: number) {
     this.movieService.removeFromWatchlist(movieId).subscribe({
-      next: () => {
-        this.movies = this.movies.filter(movie => movie.id !== movieId);
-        console.log('Movie removed from watchlist');
+      next: (response) => {
+        console.log(response.message);
+        // The watchlist$ subscription will automatically update the UI
       },
       error: (error) => {
-        console.error('Error removing from watchlist:', error);
+        console.error('Error removing movie from watchlist:', error);
+        this.error = 'Failed to remove movie from watchlist';
       }
     });
   }
+
 
   getStars(rating: number): string[] {
     const stars: string[] = [];

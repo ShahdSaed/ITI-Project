@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -12,11 +13,13 @@ import { MovieService } from '../../services/movie.service';
   templateUrl: './nav-home.html',
   styleUrl: './nav-home.css'
 })
-export class NavHome implements OnInit {
+export class NavHome implements OnInit, OnDestroy {
   faHeart = faHeart;
   watchlistCount: number = 0;
+  private watchlistCountSubscription?: Subscription;
 
   constructor(private movieService: MovieService) {}
+
   toggleDropdown(event: Event): void {
     event.preventDefault();
     const dropdown = document.getElementById('languageDropdown');
@@ -39,8 +42,18 @@ export class NavHome implements OnInit {
   }
 
   ngOnInit(): void {
-    // Load initial watchlist count
-    this.updateWatchlistCount();
+    // Subscribe to watchlist count changes
+    this.watchlistCountSubscription = this.movieService.watchlistCount$.subscribe({
+      next: (count) => {
+        if (this.watchlistCount !== count) {
+          console.log('Watchlist count updated:', count);
+          this.watchlistCount = count;
+        }
+      },
+      error: (error) => {
+        console.error('Error getting watchlist count:', error);
+      }
+    });
     
     document.addEventListener('click', (event: Event) => {
       const dropdown = document.getElementById('languageDropdown');
@@ -54,7 +67,9 @@ export class NavHome implements OnInit {
     });
   }
 
-  updateWatchlistCount(): void {
-    this.watchlistCount = this.movieService.getWatchlistCount();
+  ngOnDestroy(): void {
+    if (this.watchlistCountSubscription) {
+      this.watchlistCountSubscription.unsubscribe();
+    }
   }
 }
