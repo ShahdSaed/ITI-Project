@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaCardComponent } from '../media-card/media-card';
-import { MovieService, Movie } from '../services/movie.service';
+import { MovieService } from '../services/movie.service';
+import { Movie } from '../models/movie';
 
 @Component({
   selector: 'app-card-grid',
@@ -22,6 +23,15 @@ export class CardGrid implements OnInit {
 
   ngOnInit(): void {
     this.loadMovies();
+  }
+
+  isMovieLiked(movieId: number): boolean {
+    return this.movieService.getWatchlistCount() > 0 && 
+           this.movieService.watchList.some(movie => movie.id === movieId);
+  }
+
+  refreshCards(): void {
+    this.cards = [...this.cards];
   }
 
   ngOnChanges(): void {
@@ -64,14 +74,9 @@ export class CardGrid implements OnInit {
     if (!posterPath) {
       return 'https://via.placeholder.com/300x450?text=No+Image';
     }
-
-    // If the poster path already starts with http, it's a full URL
     if (posterPath.startsWith('http')) {
       return posterPath;
     }
-
-    // For TMDB poster paths, use the proper base URL
-    // Remove leading slash if present
     const cleanPath = posterPath.startsWith('/') ? posterPath.substring(1) : posterPath;
     return `https://image.tmdb.org/t/p/w500/${cleanPath}`;
   }

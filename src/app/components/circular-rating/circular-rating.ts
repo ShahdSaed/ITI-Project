@@ -9,7 +9,6 @@ export class CircularRatingComponent {
   @Input() percentage: number = 87;
   @Input() size: number = 60;
   @Input() strokeWidth: number = 4;
-  @Input() color: string = '#00ff00';
 
   get radius(): number {
     return (this.size - this.strokeWidth) / 2;
@@ -30,5 +29,15 @@ export class CircularRatingComponent {
 
   get center(): number {
     return this.size / 2;
+  }
+
+  get color(): string {
+    if (this.percentage >= 70) {
+      return '#00ff00';
+    } else if (this.percentage >= 50) {
+      return '#FFD700';
+    } else {
+      return '#ff0000';
+    }
   }
 }

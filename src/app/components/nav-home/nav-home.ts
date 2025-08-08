@@ -1,16 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { RouterLink } from '@angular/router';
+import { MovieService } from '../../services/movie.service';
 
 
 @Component({
   selector: 'app-nav-home',
-  imports: [FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, RouterLink],
   templateUrl: './nav-home.html',
   styleUrl: './nav-home.css'
 })
-export class NavHome {
+export class NavHome implements OnInit {
   faHeart = faHeart;
+  watchlistCount: number = 0;
+
+  constructor(private movieService: MovieService) {}
   toggleDropdown(event: Event): void {
     event.preventDefault();
     const dropdown = document.getElementById('languageDropdown');
@@ -33,6 +39,9 @@ export class NavHome {
   }
 
   ngOnInit(): void {
+    // Load initial watchlist count
+    this.updateWatchlistCount();
+    
     document.addEventListener('click', (event: Event) => {
       const dropdown = document.getElementById('languageDropdown');
       const dropdownToggle = document.getElementById('navbarDropdownMenuLink');
@@ -43,5 +52,9 @@ export class NavHome {
         dropdown.style.display = 'none';
       }
     });
+  }
+
+  updateWatchlistCount(): void {
+    this.watchlistCount = this.movieService.getWatchlistCount();
   }
 }

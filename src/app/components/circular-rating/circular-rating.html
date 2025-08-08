@@ -1,6 +1,5 @@
 <div class="circular-rating" [style.width.px]="size" [style.height.px]="size">
   <svg [attr.width]="size" [attr.height]="size" class="circular-progress">
-    <!-- Background circle -->
     <circle
       [attr.cx]="center"
       [attr.cy]="center"
@@ -9,7 +8,6 @@
       stroke="black"
       [attr.stroke-width]="strokeWidth"
     />
-    <!-- Progress circle -->
     <circle
       [attr.cx]="center"
       [attr.cy]="center"
@@ -24,6 +22,6 @@
     />
   </svg>
   <div class="percentage-text">
-    {{ percentage }}%
+    {{ percentage }}<sup>%</sup>
   </div>
 </div>

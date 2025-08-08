@@ -1,11 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CircularRatingComponent } from './circular-rating/circular-rating';
-import { HomePage } from './home-page/home-page';
+import { NavHome } from './components/nav-home/nav-home';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CircularRatingComponent, HomePage],
+  imports: [RouterOutlet, NavHome],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

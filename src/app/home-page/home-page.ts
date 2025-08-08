@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { CardGrid } from '../card-grid/card-grid';
-import { SearchHeaderComponent } from '../search-header/search-header';
-import { NavHome } from '../nav-home/nav-home';
-import { Movie } from '../services/movie.service';
+import { SearchHeaderComponent } from '../components/search-header/search-header';
+import { Movie } from '../models/movie';
 
 @Component({
   selector: 'app-home-page',
-  imports: [CardGrid, SearchHeaderComponent, NavHome],
+  imports: [CardGrid, SearchHeaderComponent],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css'
 })

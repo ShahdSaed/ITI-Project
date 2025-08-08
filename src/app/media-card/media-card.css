@@ -127,12 +127,14 @@
 .like-button fa-icon {
   font-size: 18px;
   transition: all 0.3s ease;
+  color: #000000;
 }
 
 .like-button.liked fa-icon {
-  color: yellow;
+  color: #FFD700;
   animation: heartBeat 0.3s ease;
 }
+
 
 @keyframes heartBeat {
   0% { transform: scale(1); }

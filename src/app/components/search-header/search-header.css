@@ -1,46 +1,50 @@
 .search-header {
   padding: 32px 24px;
-  background-color: #e0e0e0;
-  border-radius: 8px;
+  background-color: #F3F1F1;
   margin: 24px;
+  height: 256px;
 }
 
 .search-header h2 {
   margin-bottom: 24px;
   font-size: 26px;
   font-weight: 600;
-  color: #333;
-  text-align: center;
+  padding: 16px 8px;
 }
 
+p{
+  padding: 16px 8px;
+}
 .search-box {
   display: flex;
   width: 100%;
-  /* ✅ ياخد كل العرض */
   max-width: 100%;
   gap: 12px;
+  margin: 24px 8px;
 }
 
 .search-box input {
   flex: 1;
-  /* ✅ ياخد كل المساحة المتبقية */
+  color: #ADADAD;
   padding: 14px 18px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
+  border-color: #F3F1F1;
   font-size: 18px;
   width: 100%;
+  height: 46px;
   box-sizing: border-box;
 }
 
 .search-box button {
-  padding: 14px 24px;
-  background-color: black;
-  color: white;
+  padding: 8px 16px;
+  background-color: #FFE353;
+  color: #050505;
+  height: 46px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 16px;
-  font-weight: bold;
+  width: 120px;
   cursor: pointer;
   transition: background 0.2s ease;
-  white-space: nowrap;
+  margin-right: 8px;
 }

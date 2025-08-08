@@ -1,0 +1,50 @@
+/* Global styles for like buttons */
+.like-button fa-icon,
+.fa-heart,
+.css-heart {
+  color: #000000 !important;
+  transition: all 0.3s ease;
+}
+
+.like-button.liked fa-icon,
+.fa-heart.liked,
+.css-heart.active,
+.css-heart.active::before,
+.css-heart.active::after {
+  color: #FFD700 !important;
+  background: #FFD700 !important;
+}
+
+/* Heart animation for all like buttons */
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.like-button.liked fa-icon,
+.fa-heart.liked {
+  animation: heartBeat 0.3s ease;
+}
+
+/* Additional styles for card grid pages */
+app-media-card .like-button fa-icon {
+  color: #000000 !important;
+}
+
+app-media-card .like-button.liked fa-icon {
+  color: #FFD700 !important;
+  animation: heartBeat 0.3s ease;
+}
+
+/* Ensure all heart icons in cards follow the same pattern */
+.card-grid .like-button fa-icon,
+.card-grid .fa-heart {
+  color: #000000 !important;
+}
+
+.card-grid .like-button.liked fa-icon,
+.card-grid .fa-heart.liked {
+  color: #FFD700 !important;
+  animation: heartBeat 0.3s ease;
+}

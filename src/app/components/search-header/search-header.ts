@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Movie, MovieService } from '../services/movie.service';
+import { MovieService } from '../../services/movie.service';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { Movie } from '../../models/movie';
 
 @Component({
   selector: 'app-search-header',
@@ -13,6 +14,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 })
 export class SearchHeaderComponent implements OnInit {
   searchTerm = '';
+  click:boolean = false;
   movies: Movie[] = [];
   private searchSubject = new Subject<string>();
   @Output() searchResults = new EventEmitter<Movie[]>();
@@ -47,6 +49,7 @@ export class SearchHeaderComponent implements OnInit {
   }
 
   onSearchButtonClick(): void {
+    this.click = true;
     this.performSearch(this.searchTerm);
   }
 

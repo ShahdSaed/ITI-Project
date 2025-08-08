@@ -1,71 +1,85 @@
 <div class="container">
-  <!-- Loading state -->
-  <div *ngIf="loading" class="text-center py-5">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
+  @if(loading){
+    <div class="text-center py-5">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">Loading movies...</p>
     </div>
-    <p class="mt-3">Loading movies...</p>
-  </div>
-
-  <!-- Error state -->
-  <div *ngIf="error" class="text-center py-5">
-    <div class="alert alert-danger" role="alert">
-      {{ error }}
-    </div>
-    <button class="btn btn-primary" (click)="loadMovies()">Try Again</button>
-  </div>
-
-  <!-- No results state -->
-  <div *ngIf="!loading && !error && cards.length === 0" class="text-center py-5">
-    <div class="alert alert-info" role="alert">
-      <h4>No movies found</h4>
-      <p>Try adjusting your search terms or browse all movies.</p>
-    </div>
-  </div>
-
-  <!-- Movies grid -->
-  <div *ngIf="!loading && !error && cards.length > 0" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-    <div class="col mb-4" *ngFor="let card of cardsToShow">
-      <app-media-card
-        [title]="card.title"
-        [date]="formatDate(card.release_date)"
-        [rating]="getRatingPercentage(card.vote_average)"
-        [imageUrl]="getImageUrl(card.poster_path)"
-        [id]="card.id"
-        [isLiked]="false">
-      </app-media-card>
-    </div>
-  </div>
-
-  <!-- Pagination -->
-  <nav *ngIf="!loading && !error && cards.length > 0" aria-label="Page navigation example" class="mt-4">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <a class="page-link" href="#" (click)="goToPage(currentPage - 1)" tabindex="-1" aria-label="Previous">
-          <span aria-hidden="true">&lt;</span>
-        </a>
-      </li>
-      <ng-container *ngFor="let page of paginationPages">
-        <li *ngIf="page === '...'" class="page-item disabled">
-          <span class="page-link">&hellip;</span>
-        </li>
-        <li *ngIf="page !== '...'" class="page-item" [class.active]="currentPage === page">
-          <a class="page-link custom-active-bg" href="#" (click)="goToPage(+page)">{{ page }}</a>
-        </li>
-      </ng-container>
-      <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <a class="page-link" href="#" (click)="goToPage(currentPage + 1)" aria-label="Next">
-          <span aria-hidden="true">&gt;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
-
-<style>
-  .pagination .page-item.active .custom-active-bg {
-    background-color: #ffe066 !important;
-    border-color: #ffe066 !important;
-    color: #222 !important;
   }
-</style>
+  @if (error) {
+    <div class="error-container">
+      <div class="error-card">
+        <div class="error-icon">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+        <h3 class="error-title">Oops! Something went wrong</h3>
+        <p class="error-message">{{ error }}</p>
+        <button class="btn btn-retry" (click)="loadMovies()">
+          <i class="bi bi-arrow-clockwise me-2"></i>
+          Try Again
+        </button>
+      </div>
+    </div>
+  }
+  @if (!loading && !error && cards.length === 0) {
+    <div class="no-movies-container">
+      <div class="no-movies-card">
+        <div class="no-movies-icon">
+          <i class="fas fa-film"></i>
+        </div>
+          <h3 class="no-movies-title">No Movies Found</h3>
+         <p class="no-movies-message">Try adjusting your search terms or browse all movies</p>
+         <div class="no-movies-suggestion">
+           <i class="fas fa-search"></i>
+           Try different search keywords
+         </div>
+      </div>
+    </div>
+  }
+  @if (!loading && !error && cards.length > 0) {
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+      @for (card of cardsToShow; track card.id) {
+        <div class="col mb-4">
+           <app-media-card
+             [title]="card.title"
+             [date]="formatDate(card.release_date)"
+             [rating]="getRatingPercentage(card.vote_average)"
+             [imageUrl]="getImageUrl(card.poster_path)"
+             [id]="card.id"
+             [movie]="card"
+             [isLiked]="isMovieLiked(card.id)"
+             (likeChanged)="refreshCards()">
+           </app-media-card>
+        </div>
+      }
+    </div>
+  }
+  @if (!loading && !error && cards.length > 0) {
+    <nav aria-label="Page navigation example" class="mt-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" href="#" (click)="goToPage(currentPage - 1)" tabindex="-1" aria-label="Previous">
+            <span aria-hidden="true">&lt;</span>
+          </a>
+        </li>
+        @for (page of paginationPages; track $index) {
+          @if (page === '...') {
+            <li class="page-item disabled">
+              <span class="page-link">&hellip;</span>
+            </li>
+          } @else {
+              <li class="page-item" [class.active]="currentPage === page">
+               <a class="page-link" href="#" (click)="goToPage(+page)">{{ page }}</a>
+             </li>
+          }
+        }
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" href="#" (click)="goToPage(currentPage + 1)" aria-label="Next">
+            <span aria-hidden="true">&gt;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  }
+</div>

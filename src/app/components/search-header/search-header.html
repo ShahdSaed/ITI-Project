@@ -1,0 +1,24 @@
+@if(!searchTerm) {
+  <section class="search-header">
+    <h1>Welcome to our movie app</h1>
+    <p>Millions of movies, TV shows and people to discover. Explore now.</p>
+    <div class="search-box">
+      <input type="text" 
+      [(ngModel)]="searchTerm" 
+      (input)="onSearchInput()"
+      placeholder="Search and explore..."
+      />
+      <button (click)="onSearchButtonClick()" class="search-btn">Search</button>
+    </div>
+  </section>
+} @else {
+  <div class="search-box">
+    <input type="text" 
+    [(ngModel)]="searchTerm" 
+    (input)="onSearchInput()"
+    placeholder="Search and explore..."
+    />
+    <button (click)="onSearchButtonClick()" class="search-btn">Search</button>
+  </div>
+  <p><span class="fw-bold">Search Results for : </span>{{searchTerm}}</p>
+}

@@ -1,0 +1,151 @@
+.card-title {
+  font-weight: 600;
+}
+
+.fa-star {
+  color: #f5c518;
+}
+
+.fa-heart {
+  color: #000000;
+}
+
+.fa-heart.liked {
+  color: #FFD700;
+}
+
+.card-text {
+  color: #333;
+}
+
+@media (max-width: 575px) {
+  .row .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .row .col app-media-card {
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .row {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .row .col {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .row .col app-media-card {
+    display: flex;
+    justify-content: center;
+  }
+}
+.star {
+  color: #333;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+  font-size: 16px;
+}
+
+.full-star {
+  color: #000;
+}
+
+.empty-star {
+  color: #ccc;
+}
+
+.half-star::before {
+  content: '★';
+  color: #000;
+  position: absolute;
+  overflow: hidden;
+  width: 50%;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+.container {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.simple-empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  padding: 2rem;
+}
+
+.simple-empty-icon {
+  margin-bottom: 1.5rem;
+}
+
+.simple-empty-icon i {
+  font-size: 6rem;
+  color: #d3d3d3;
+}
+
+.simple-empty-title {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.simple-empty-button {
+  background: #ffd700;
+  border: none;
+  color: #333;
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.simple-empty-button:hover {
+  background: #ffe066;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.simple-empty-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .simple-empty-container {
+    padding: 1rem;
+    min-height: 300px;
+  }
+  
+  .simple-empty-icon i {
+    font-size: 5rem;
+  }
+  
+  .simple-empty-title {
+    font-size: 1.3rem;
+  }
+}

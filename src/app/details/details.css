@@ -252,13 +252,14 @@ button.active {
 }
 
 .star {
-  color: #ccc;
+  color: #333;
   position: relative;
   display: inline-block;
+  transition: color 0.3s ease;
 }
 
 .full-star {
-  color: gold;
+  color: #000;
 }
 
 .empty-star {
@@ -267,7 +268,7 @@ button.active {
 
 .half-star::before {
   content: '★';
-  color: gold;
+  color: #000;
   position: absolute;
   overflow: hidden;
   width: 50%;
@@ -312,7 +313,7 @@ button.active {
   position: relative;
   width: 24px;
   height: 24px;
-  background: #ccc;
+  background: #000000;
   transform: rotate(-45deg);
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -324,7 +325,7 @@ button.active {
   position: absolute;
   width: 24px;
   height: 24px;
-  background: #ccc;
+  background: #000000;
   border-radius: 50%;
   transition: background-color 0.3s ease;
 }
@@ -342,7 +343,7 @@ button.active {
 .css-heart.active,
 .css-heart.active::before,
 .css-heart.active::after {
-  background: #FFE353;
+  background: #FFD700;
 }
 .title-with-heart {
   display: flex;

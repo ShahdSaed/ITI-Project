@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, ParamMap, RouterModule, Router } from '@angular/router';
-import { MovieService, Movie } from '../services/movie.service';
+import { MovieService  } from '../services/movie.service';
 import { MediaCardComponent } from '../media-card/media-card';
+import { Movie } from '../models/movie'
 
 @Component({
   selector: 'app-details',
@@ -45,7 +46,7 @@ export class DetailsComponent implements OnInit {
         this.movie = movie;
         this.loading = false;
         this.loadRecommendations();
-        this.starsArray = this.getStars(this.getRatingPercentage(movie.vote_average) / 10);
+        this.starsArray = this.getStars(this.getPopularityStars(movie.popularity));
       },
       error: (error) => {
         this.error = 'Failed to load movie details. Please try again.';
@@ -76,11 +77,41 @@ export class DetailsComponent implements OnInit {
   }
 
   toggleWatchlist(id: number) {
-    if (this.watchlist.has(id)) {
-      this.watchlist.delete(id);
-    } else {
-      this.watchlist.add(id);
-    }
+    if (!this.movie) return;
+
+    // Create movie object for watchlist
+    const movieForWatchlist: Movie = {
+      id: this.movie.id,
+      title: this.movie.title,
+      poster_path: this.movie.poster_path,
+      release_date: this.movie.release_date,
+      vote_average: this.movie.vote_average,
+      vote_count: this.movie.vote_count,
+      overview: this.movie.overview,
+      adult: this.movie.adult,
+      backdrop_path: this.movie.backdrop_path,
+      genre_ids: this.movie.genre_ids,
+      id_: this.movie.id_,
+      original_language: this.movie.original_language,
+      original_title: this.movie.original_title,
+      popularity: this.movie.popularity,
+      video: this.movie.video
+    };
+
+    this.movieService.toggleWatchlist(movieForWatchlist).subscribe({
+      next: (response) => {
+        // Update local watchlist state
+        if (this.watchlist.has(id)) {
+          this.watchlist.delete(id);
+        } else {
+          this.watchlist.add(id);
+        }
+        console.log('Watchlist updated:', response.message);
+      },
+      error: (error) => {
+        console.error('Error updating watchlist:', error);
+      }
+    });
   }
 
   isInWatchlist(id: number): boolean {
@@ -117,6 +148,15 @@ export class DetailsComponent implements OnInit {
 
   getRatingPercentage(voteAverage: number): number {
     return Math.round(voteAverage * 10);
+  }
+
+  getPopularityStars(popularity: number): number {
+    // Convert popularity to a 0-5 scale
+    // Popularity can range from 0 to very high numbers
+    // We'll normalize it to 0-5 scale
+    const maxPopularity = 1000;
+    const normalizedPopularity = Math.min(popularity / maxPopularity * 5, 5);
+    return Math.round(normalizedPopularity * 2) / 2; // Round to nearest 0.5
   }
 
   formatDate(dateString: string): string {

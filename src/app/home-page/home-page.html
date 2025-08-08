@@ -1,3 +1,5 @@
-<app-nav-home></app-nav-home>
 <app-search-header (searchResults)="onSearchResults($event)"></app-search-header>
-<app-card-grid [searchResults]="searchResults"></app-card-grid>
+<div class="container">
+  <h1>Now Playing</h1>
+</div>
+  <app-card-grid [searchResults]="searchResults"></app-card-grid>

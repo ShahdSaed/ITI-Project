@@ -1,0 +1,21 @@
+<nav class="navbar navbar-yellow px-4">
+  <div class="container-fluid">
+    <a routerLink="/" class="navbar-brand mb-0 h1 fw-bold text-dark text-decoration-none">Movie App</a>
+    <div class="d-flex align-items-center gap-3">
+      <div class="dropdown">
+        <a class="text-dark text-decoration-none dropdown-toggle">
+          En
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item">En</a></li>
+          <li><a class="dropdown-item">Ar</a></li>
+        </ul>
+      </div>
+             <a routerLink="/watch-list" class="text-dark text-decoration-none d-flex align-items-center">
+           <i class="bi bi-heart-fill"></i>
+           <span class="ms-2">watchlist</span>
+           <span class="badge bg-danger ms-1" *ngIf="watchlistCount > 0">{{ watchlistCount }}</span>
+       </a>
+    </div>
+  </div>
+</nav>
